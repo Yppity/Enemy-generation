@@ -6,7 +6,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private float _rotationSpeed = 1f;
     [SerializeField] EnemyBody _body;
 
-    private Vector3 _targetPoint;
+    private Target _target;
     private Vector3 _direction;
 
     protected abstract Color Color { get; }
@@ -21,9 +21,9 @@ public abstract class Enemy : MonoBehaviour
         Move();
     }
 
-    public void SetTargetPoint(Vector3 target)
+    public void SetTargetPoint(Target target)
     {
-        _targetPoint = target;
+        _target = target;
         SetDirection();
         transform.forward = _direction;
     }
@@ -32,6 +32,7 @@ public abstract class Enemy : MonoBehaviour
     {
         SetDirection();
         transform.Translate(_direction * _speed * Time.deltaTime, Space.World);
+        transform.forward = Vector3.Lerp(transform.forward, _direction, _rotationSpeed * Time.deltaTime).normalized;
     }
 
     private void SetColor()
@@ -41,7 +42,6 @@ public abstract class Enemy : MonoBehaviour
 
     private void SetDirection()
     {
-        _direction = (_targetPoint - transform.position).normalized;
-        transform.forward = Vector3.Lerp(transform.forward, _direction, _rotationSpeed * Time.deltaTime).normalized;
+        _direction = (_target.transform.position - transform.position).normalized;
     }
 }

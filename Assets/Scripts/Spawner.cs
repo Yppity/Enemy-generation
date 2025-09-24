@@ -4,7 +4,7 @@ using UnityEngine.Pool;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private PointRoute _route;
+    [SerializeField] private EnemyRoute _route;
     [SerializeField] private Enemy _enemyPrefab;
     [SerializeField] private float _repeatRate = 2f;
 
