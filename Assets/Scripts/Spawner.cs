@@ -4,9 +4,7 @@ using UnityEngine.Pool;
 
 public class Spawner : MonoBehaviour
 {
-    private const float FullCircleRadians = Mathf.PI * 2f;
-
-    [SerializeField] private SpawnPoint[] _spawnPoints;
+    [SerializeField] private PointRoute _route;
     [SerializeField] private Enemy _enemyPrefab;
     [SerializeField] private float _repeatRate = 2f;
 
@@ -38,20 +36,8 @@ public class Spawner : MonoBehaviour
 
     private void InitializeEnemy(Enemy enemy)
     {
-        Vector3 spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length)].transform.position;
-
         enemy.gameObject.SetActive(true);
-        enemy.transform.position = spawnPoint;
-        enemy.SetDirection(GetRandomDirection());
-
-    }
-
-    private Vector3 GetRandomDirection()
-    {
-        float angel = Random.Range(0, FullCircleRadians);
-        float x = Mathf.Cos(angel);
-        float z = Mathf.Sin(angel);
-
-        return new Vector3(x, 0, z).normalized;
+        enemy.transform.position = _route.SpawnPoint;
+        enemy.SetTargetPoint(_route.TargetPoint);
     }
 }
